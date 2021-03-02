@@ -17,7 +17,7 @@ void Content::initContent()
         const auto list = arrKey.split('_');
         if (list.size() == 2) {
             const Content::Place place = QVariant::fromValue(list.at(0)).value<Content::Place>();
-            vecPlaceCommand.append(qMakePair(place, list.at(1)));
+            vecPlaceCommand.append(qMakePair(place, "/" + list.at(1).toLower()));
         }
     }
     Q_ASSERT(vecPlaceCommand.size() == Content::PlaceCommand::MultiPlace_Help + 1);
@@ -36,4 +36,17 @@ Content::Place Content::getPlace(const QString &command)
 Content::Place Content::getPlace(const std::string &command)
 {
     return getPlace(QString::fromStdString(command));
+}
+
+QString Content::getCommand(const Content::PlaceCommand placeCommand)
+{
+    if (placeCommand < vecPlaceCommand.size()) {
+        return vecPlaceCommand.at(placeCommand).second;
+    }
+    return {};
+}
+
+bool Content::isEqualCommands(const std::string &command, const Content::PlaceCommand placeCommand)
+{
+    return QString::fromStdString(command).toLower() == getCommand(placeCommand);
 }

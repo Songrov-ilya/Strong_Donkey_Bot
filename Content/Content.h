@@ -27,6 +27,8 @@ public:
     };
     Q_ENUM(Place)
     enum PlaceCommand{
+        BlackHole_None,
+
         Start_Start,
         Start_JoinChurch,
 
@@ -40,6 +42,7 @@ public:
     static Place getPlace(const QString &command);
     static Place getPlace(const std::string &command);
     static QString getCommand(const PlaceCommand placeCommand);
+    static bool isEqualCommands(const std::string &command, const PlaceCommand placeCommand);
 
 private:
     static QVector<QPair<Place, QString> > vecPlaceCommand;

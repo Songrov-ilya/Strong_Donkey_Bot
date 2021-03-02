@@ -3,7 +3,7 @@
 #include <QObject>
 #include <QDebug>
 
-//#include "../Content/Content.h"
+#include "../Content/Content.h"
 #include "../GlobalData/GlobalData.h"
 
 #include <tgbot/tgbot.h>
