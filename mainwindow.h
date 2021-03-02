@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 
+#include "ManagerBot.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -16,6 +18,10 @@ public:
     ~MainWindow();
 
 private:
+    void setSettings();
+
+private:
     Ui::MainWindow *ui;
+    ManagerBot managerBot;
 };
 #endif // MAINWINDOW_H
