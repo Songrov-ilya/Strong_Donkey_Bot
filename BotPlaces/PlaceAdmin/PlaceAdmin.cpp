@@ -5,7 +5,7 @@ PlaceAdmin::PlaceAdmin(QObject *parent) : PlaceAbstract(parent)
 
 }
 
-void PlaceAdmin::slotOnCommand(const QString &commandName)
+void PlaceAdmin::slotOnCommand(const Message::Ptr messagePtr)
 {
 
 }

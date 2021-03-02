@@ -3,14 +3,14 @@
 #include <QObject>
 #include <QString>
 
-#include <tgbot/tgbot.h>
-
+#include "GlobalData/GlobalData.h"
 #include "Content/Content.h"
 #include "BotPlaces/PlaceStart/PlaceStart.h"
 #include "BotPlaces/PlaceChurch/PlaceChurch.h"
 #include "BotPlaces/PlaceThyCloset/PlaceThyCloset.h"
 #include "BotPlaces/PlaceAdmin/PlaceAdmin.h"
 
+#include <tgbot/tgbot.h>
 using namespace TgBot;
 
 class ManagerBot : public QObject
@@ -18,22 +18,20 @@ class ManagerBot : public QObject
     Q_OBJECT
 
 public:
-    explicit ManagerBot(QObject *parent = nullptr);
+    explicit ManagerBot(const QString token, QObject *parent = nullptr);
 
     void startBot();
 
 private:
     void setSettings();
-    void commandWasWrite(const QString &command);
+    void commandWasWrite(const Message::Ptr messagePtr);
 
 private:
-    const QString token;
-    Bot bot;
-    Content::Place currentPlace;
     PlaceStart      *placeStart     ;
     PlaceChurch     *placeChurch    ;
     PlaceThyCloset  *placeThyCloset ;
     PlaceAdmin      *placeAdmin     ;
-    PlaceAbstract *placeBot;
+    PlaceAbstract   *placeBot       ;
+    Content::Place currentPlace;
 };
 

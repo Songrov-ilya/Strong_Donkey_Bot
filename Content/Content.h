@@ -38,6 +38,7 @@ public:
 
     static void initContent();
     static Place getPlace(const QString &command);
+    static Place getPlace(const std::string &command);
     static QString getCommand(const PlaceCommand placeCommand);
 
 private:

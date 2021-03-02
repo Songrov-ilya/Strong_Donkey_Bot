@@ -32,3 +32,8 @@ Content::Place Content::getPlace(const QString &command)
     }
     return Place::BlackHole;
 }
+
+Content::Place Content::getPlace(const std::string &command)
+{
+    return getPlace(QString::fromStdString(command));
+}

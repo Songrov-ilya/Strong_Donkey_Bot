@@ -15,6 +15,7 @@ SOURCES += \
     BotPlaces/PlaceStart/PlaceStart.cpp \
     BotPlaces/PlaceThyCloset/PlaceThyCloset.cpp \
     Content/Content.cpp \
+    GlobalData/GlobalData.cpp \
     ManagerBot.cpp \
     main.cpp \
     mainwindow.cpp
@@ -26,6 +27,7 @@ HEADERS += \
     BotPlaces/PlaceStart/PlaceStart.h \
     BotPlaces/PlaceThyCloset/PlaceThyCloset.h \
     Content/Content.h \
+    GlobalData/GlobalData.h \
     ManagerBot.h \
     mainwindow.h \
     tgbot/include/tgbot/tgbot.h

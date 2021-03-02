@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
 //    MainWindow w;
 //    w.show();
 
-    ManagerBot managerBot;
+    ManagerBot managerBot("1074139558:AAHPrCJFleoqGnMAYmO2aKldpLTbxvAtplc");
     managerBot.startBot();
 
     return a.exec();

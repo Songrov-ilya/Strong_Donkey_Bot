@@ -5,7 +5,7 @@ PlaceAbstract::PlaceAbstract(QObject *parent) : QObject(parent)
 
 }
 
-void PlaceAbstract::slotOnCommand(const QString &commandName)
+void PlaceAbstract::slotOnCommand(const Message::Ptr messagePtr)
 {
 
 }

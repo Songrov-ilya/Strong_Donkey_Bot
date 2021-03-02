@@ -1,70 +1,70 @@
 #include "ManagerBot.h"
 
 
-ManagerBot::ManagerBot(QObject *parent) : QObject(parent)
-  , token("1074139558:AAHPrCJFleoqGnMAYmO2aKldpLTbxvAtplc")
-  , bot(token.toStdString())
+ManagerBot::ManagerBot(const QString token, QObject *parent) : QObject(parent)
   , currentPlace(Content::Place::BlackHole)
 {
-//    printf("Token: %s\n", token.toUtf8().constData());
+    initGlobalData(token);
 
-//    Bot bot(token.toUtf8().constData());
+    //    printf("Token: %s\n", token.toUtf8().constData());
 
-//    ReplyKeyboardMarkup::Ptr keyboardOneCol(new ReplyKeyboardMarkup);
-//    createOneColumnKeyboard({"Option 1", "Option 2", "Option 3"}, keyboardOneCol);
+    //    Bot bot(token.toUtf8().constData());
 
-//    ReplyKeyboardMarkup::Ptr keyboardWithLayout(new ReplyKeyboardMarkup);
-//    createKeyboard({
-//      {"Dog", "Cat", "Mouse"},
-//      {"Green", "White", "Red"},
-//      {"On", "Off"},
-//      {"Back"},
-//      {"Info", "About", "Map", "Etc"}
-//    }, keyboardWithLayout);
+    //    ReplyKeyboardMarkup::Ptr keyboardOneCol(new ReplyKeyboardMarkup);
+    //    createOneColumnKeyboard({"Option 1", "Option 2", "Option 3"}, keyboardOneCol);
 
-//    bot.getEvents().onCommand("start", [&bot, &keyboardOneCol](Message::Ptr message) {
-//        bot.getApi().sendMessage(message->chat->id, "/start for one column keyboard\n/layout for a more complex keyboard", false, 0, keyboardOneCol);
-//    });
-//    bot.getEvents().onCommand("layout", [&bot, &keyboardWithLayout](Message::Ptr message) {
-//        bot.getApi().sendMessage(message->chat->id, "/start for one column keyboard\n/layout for a more complex keyboard", false, 0, keyboardWithLayout);
-//    });
-//    bot.getEvents().onNonCommandMessage([&bot](Message::Ptr message) {
-//        printf("User wrote onNonCommandMessage %s\n", message->text.c_str());
-//        if (StringTools::startsWith(message->text, "/start") || StringTools::startsWith(message->text, "/layout")) {
-//            return;
-//        }
-//        bot.getApi().sendMessage(message->chat->id, "onNonCommandMessage Your message is: " + message->text);
-//    });
-//    bot.getEvents().onAnyMessage([&bot](Message::Ptr message) {
-//        printf("User wrote onAnyMessage %s\n", message->text.c_str());
-//        if (StringTools::startsWith(message->text, "/start") || StringTools::startsWith(message->text, "/layout")) {
-//            return;
-//        }
-//        bot.getApi().sendMessage(message->chat->id, "onAnyMessage Your message is: " + message->text);
-//    });
+    //    ReplyKeyboardMarkup::Ptr keyboardWithLayout(new ReplyKeyboardMarkup);
+    //    createKeyboard({
+    //      {"Dog", "Cat", "Mouse"},
+    //      {"Green", "White", "Red"},
+    //      {"On", "Off"},
+    //      {"Back"},
+    //      {"Info", "About", "Map", "Etc"}
+    //    }, keyboardWithLayout);
 
-//    signal(SIGINT, [](int s) {
-//        printf("SIGINT got\n");
-//        exit(0);
-//    });
+    //    bot.getEvents().onCommand("start", [&bot, &keyboardOneCol](Message::Ptr message) {
+    //        bot.getApi().sendMessage(message->chat->id, "/start for one column keyboard\n/layout for a more complex keyboard", false, 0, keyboardOneCol);
+    //    });
+    //    bot.getEvents().onCommand("layout", [&bot, &keyboardWithLayout](Message::Ptr message) {
+    //        bot.getApi().sendMessage(message->chat->id, "/start for one column keyboard\n/layout for a more complex keyboard", false, 0, keyboardWithLayout);
+    //    });
+    //    bot.getEvents().onNonCommandMessage([&bot](Message::Ptr message) {
+    //        printf("User wrote onNonCommandMessage %s\n", message->text.c_str());
+    //        if (StringTools::startsWith(message->text, "/start") || StringTools::startsWith(message->text, "/layout")) {
+    //            return;
+    //        }
+    //        bot.getApi().sendMessage(message->chat->id, "onNonCommandMessage Your message is: " + message->text);
+    //    });
+    //    bot.getEvents().onAnyMessage([&bot](Message::Ptr message) {
+    //        printf("User wrote onAnyMessage %s\n", message->text.c_str());
+    //        if (StringTools::startsWith(message->text, "/start") || StringTools::startsWith(message->text, "/layout")) {
+    //            return;
+    //        }
+    //        bot.getApi().sendMessage(message->chat->id, "onAnyMessage Your message is: " + message->text);
+    //    });
 
-//    try {
-//        printf("Bot username: %s\n", bot.getApi().getMe()->username.c_str());
-//        bot.getApi().deleteWebhook();
+    //    signal(SIGINT, [](int s) {
+    //        printf("SIGINT got\n");
+    //        exit(0);
+    //    });
 
-//        TgLongPoll longPoll(bot);
-//        while (true) {
-//            printf("Long poll started\n");
-//            longPoll.start();
-//        }
-//    } catch (exception& e) {
-//        printf("error: %s\n", e.what());
-//    }
+    //    try {
+    //        printf("Bot username: %s\n", bot.getApi().getMe()->username.c_str());
+    //        bot.getApi().deleteWebhook();
 
-    placeStart     = new PlaceStart    (this);
-    placeChurch    = new PlaceChurch   (this);
-    placeThyCloset = new PlaceThyCloset(this);
-    placeAdmin     = new PlaceAdmin    (this);
+    //        TgLongPoll longPoll(bot);
+    //        while (true) {
+    //            printf("Long poll started\n");
+    //            longPoll.start();
+    //        }
+    //    } catch (exception& e) {
+    //        printf("error: %s\n", e.what());
+    //    }
+
+    placeStart      = new PlaceStart    (this);
+    placeChurch     = new PlaceChurch   (this);
+    placeThyCloset  = new PlaceThyCloset(this);
+    placeAdmin      = new PlaceAdmin    (this);
     placeBot        = placeStart;
     setSettings();
 }
@@ -72,16 +72,29 @@ ManagerBot::ManagerBot(QObject *parent) : QObject(parent)
 void ManagerBot::startBot()
 {
     Content::initContent();
+    printf("Token: %s\n", bot->getToken().c_str());
+    try {
+        printf("Bot username: %s\n", bot->getApi().getMe()->username.c_str());
+        bot->getApi().deleteWebhook();
+
+        TgLongPoll longPoll(*bot.get());
+        while (true) {
+            printf("Long poll started\n");
+            longPoll.start();
+        }
+    } catch (std::exception& e) {
+        printf("error: %s\n", e.what());
+    }
 }
 
 void ManagerBot::setSettings()
 {
-//    bot.getEvents().onUnknownCommand(std::bing(&ManagerBot::commandWasWrite, this, std::placeholders::_1));
+    bot->getEvents().onUnknownCommand(std::bind(&ManagerBot::commandWasWrite, this, std::placeholders::_1));
 }
 
-void ManagerBot::commandWasWrite(const QString &command)
+void ManagerBot::commandWasWrite(const Message::Ptr messagePtr)
 {
-    const Content::Place place = Content::getPlace(command);
+    const Content::Place place = Content::getPlace(messagePtr->text);
     currentPlace = place != Content::Place::MultiPlace ? place : currentPlace;
 
     switch (place) {
@@ -102,5 +115,5 @@ void ManagerBot::commandWasWrite(const QString &command)
     default:
         break;
     }
-    placeBot->slotOnCommand(command);
+    placeBot->slotOnCommand(messagePtr);
 }
