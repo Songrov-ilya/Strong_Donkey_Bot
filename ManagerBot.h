@@ -32,6 +32,5 @@ private:
     PlaceThyCloset  *placeThyCloset ;
     PlaceAdmin      *placeAdmin     ;
     PlaceAbstract   *placeBot       ;
-    Content::Place currentPlace;
 };
 

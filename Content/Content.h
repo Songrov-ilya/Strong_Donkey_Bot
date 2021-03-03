@@ -18,7 +18,6 @@ public:
         CallbackQuery,
     };
     enum class Place{
-        BlackHole,
         Start,
         Church,
         ThyCloset,
@@ -27,7 +26,7 @@ public:
     };
     Q_ENUM(Place)
     enum PlaceCommand{
-        BlackHole_None,
+//        BlackHole_None,
 
         Start_Start,
         Start_JoinChurch,

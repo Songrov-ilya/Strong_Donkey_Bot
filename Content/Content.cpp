@@ -30,7 +30,7 @@ Content::Place Content::getPlace(const QString &command)
             return pair.first;
         }
     }
-    return Place::BlackHole;
+    return Place::MultiPlace;
 }
 
 Content::Place Content::getPlace(const std::string &command)

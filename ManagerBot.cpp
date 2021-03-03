@@ -2,7 +2,6 @@
 
 
 ManagerBot::ManagerBot(const QString token, QObject *parent) : QObject(parent)
-  , currentPlace(Content::Place::BlackHole)
 {
     initGlobalData(token);
 
@@ -72,6 +71,7 @@ ManagerBot::ManagerBot(const QString token, QObject *parent) : QObject(parent)
 void ManagerBot::startBot()
 {
     Content::initContent();
+
     printf("Token: %s\n", bot->getToken().c_str());
     try {
         printf("Bot username: %s\n", bot->getApi().getMe()->username.c_str());
@@ -89,13 +89,12 @@ void ManagerBot::startBot()
 
 void ManagerBot::setSettings()
 {
-    bot->getEvents().onUnknownCommand(std::bind(&ManagerBot::commandWasWrite, this, std::placeholders::_1));
+    bot->getEvents().onAnyMessage(std::bind(&ManagerBot::commandWasWrite, this, std::placeholders::_1));
 }
 
 void ManagerBot::commandWasWrite(const Message::Ptr messagePtr)
 {
     const Content::Place place = Content::getPlace(messagePtr->text);
-    currentPlace = place != Content::Place::MultiPlace ? place : currentPlace;
 
     switch (place) {
     case Content::Place::Start:
