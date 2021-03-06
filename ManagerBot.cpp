@@ -72,18 +72,18 @@ void ManagerBot::startBot()
 {
     Content::initContent();
 
-    printf("Token: %s\n", bot->getToken().c_str());
+    qDebug("Token: %s\n", bot->getToken().c_str());
     try {
-        printf("Bot username: %s\n", bot->getApi().getMe()->username.c_str());
+        qDebug("Bot username: %s\n", bot->getApi().getMe()->username.c_str());
         bot->getApi().deleteWebhook();
 
         TgLongPoll longPoll(*bot.get());
         while (true) {
-            printf("Long poll started\n");
+            qDebug("Long poll started\n");
             longPoll.start();
         }
     } catch (std::exception& e) {
-        printf("error: %s\n", e.what());
+        qDebug("error: %s\n", e.what());
     }
 }
 

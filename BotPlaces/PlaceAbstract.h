@@ -16,7 +16,7 @@ class PlaceAbstract : public QObject
 public:
     explicit PlaceAbstract(QObject *parent = nullptr);
 
-    virtual void slotOnCommand(const Message::Ptr messagePtr);
+    virtual void slotOnCommand(const Message::Ptr &messagePtr);
 
 protected:
     bool isEqualStrings(const std::string &a, const QString &b);

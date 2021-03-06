@@ -9,6 +9,6 @@ class PlaceChurch : public PlaceAbstract
 public:
     explicit PlaceChurch(QObject *parent = nullptr);
 
-    virtual void slotOnCommand(const Message::Ptr messagePtr) override;
+    virtual void slotOnCommand(const Message::Ptr &messagePtr) override;
 };
 
