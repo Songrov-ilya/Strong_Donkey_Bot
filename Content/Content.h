@@ -19,31 +19,39 @@ public:
     };
     enum class Place{
         Start,
-        Church,
         ThyCloset,
         Admin,
+        Church,
         MultiPlace,
     };
     Q_ENUM(Place)
-    enum PlaceCommand{
-//        BlackHole_None,
-
+    enum Command{
         Start_Start,
-        Start_JoinChurch,
 
-        Admin_CreateChurch,
+        ThyCloset_AddPrayerNeed,
+        ThyCloset_AddAnswerOfGod,
+        ThyCloset_ListPrayerNeed,
+
+        Admin_DeletePrayerNeed,
+        Admin_DeleteHistory,
 
         MultiPlace_Help,
+        MultiPlace_AnyMessage,
     };
-    Q_ENUM(PlaceCommand)
+    Q_ENUM(Command)
+    struct PlaceCommand{
+        Place place     = Place::MultiPlace;
+        Command command = MultiPlace_AnyMessage;
+        PlaceCommand(const Place pl, const Command cm) : place(pl), command(cm) {}
+        PlaceCommand(){}
+    };
 
     static void initContent();
-    static Place getPlace(const QString &command);
-    static Place getPlace(const std::string &command);
-    static QString getCommand(const PlaceCommand placeCommand);
-    static bool isEqualCommands(const std::string &command, const PlaceCommand placeCommand);
+    static PlaceCommand getPlaceCommand(const QString &command);
+    static PlaceCommand getPlaceCommand(const std::string &command);
+    static QString getCommand(const Command placeCommand);
 
 private:
-    static QVector<QPair<Place, QString> > vecPlaceCommand;
+    static QVector<QPair<PlaceCommand, QString> > vecPlaceCommand;
 };
 

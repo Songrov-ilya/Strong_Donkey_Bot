@@ -61,7 +61,6 @@ ManagerBot::ManagerBot(const QString token, QObject *parent) : QObject(parent)
     //    }
 
     placeStart      = new PlaceStart    (this);
-    placeChurch     = new PlaceChurch   (this);
     placeThyCloset  = new PlaceThyCloset(this);
     placeAdmin      = new PlaceAdmin    (this);
     placeBot        = placeStart;
@@ -94,14 +93,11 @@ void ManagerBot::setSettings()
 
 void ManagerBot::commandWasWrite(const Message::Ptr messagePtr)
 {
-    const Content::Place place = Content::getPlace(messagePtr->text);
+    const Content::PlaceCommand placeCommand = Content::getPlaceCommand(messagePtr->text);
 
-    switch (place) {
+    switch (placeCommand.place) {
     case Content::Place::Start:
         placeBot = placeStart;
-        break;
-    case Content::Place::Church:
-        placeBot = placeChurch;
         break;
     case Content::Place::ThyCloset:
         placeBot = placeThyCloset;
@@ -114,5 +110,5 @@ void ManagerBot::commandWasWrite(const Message::Ptr messagePtr)
     default:
         break;
     }
-    placeBot->slotOnCommand(messagePtr);
+    placeBot->slotOnCommand(messagePtr, placeCommand.command);
 }

@@ -9,6 +9,6 @@ class PlaceAdmin : public PlaceAbstract
 public:
     explicit PlaceAdmin(QObject *parent = nullptr);
 
-    virtual void slotOnCommand(const Message::Ptr &messagePtr) override;
+    virtual void slotOnCommand(const Message::Ptr &messagePtr, const Content::Command &command) override;
 };
 

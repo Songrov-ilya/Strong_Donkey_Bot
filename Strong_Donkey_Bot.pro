@@ -11,7 +11,6 @@ CONFIG += c++11
 SOURCES += \
     BotPlaces/PlaceAbstract.cpp \
     BotPlaces/PlaceAdmin/PlaceAdmin.cpp \
-    BotPlaces/PlaceChurch/PlaceChurch.cpp \
     BotPlaces/PlaceStart/PlaceStart.cpp \
     BotPlaces/PlaceThyCloset/PlaceThyCloset.cpp \
     Content/Content.cpp \
@@ -24,7 +23,6 @@ SOURCES += \
 HEADERS += \
     BotPlaces/PlaceAbstract.h \
     BotPlaces/PlaceAdmin/PlaceAdmin.h \
-    BotPlaces/PlaceChurch/PlaceChurch.h \
     BotPlaces/PlaceStart/PlaceStart.h \
     BotPlaces/PlaceThyCloset/PlaceThyCloset.h \
     Content/Content.h \

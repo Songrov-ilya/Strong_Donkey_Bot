@@ -16,12 +16,12 @@ class PlaceAbstract : public QObject
 public:
     explicit PlaceAbstract(QObject *parent = nullptr);
 
-    virtual void slotOnCommand(const Message::Ptr &messagePtr);
+    virtual void slotOnCommand(const Message::Ptr &messagePtr, const Content::Command &command);
 
 protected:
-    bool isEqualStrings(const std::string &a, const QString &b);
-    bool isEqualCommands(const std::string &command, const Content::PlaceCommand placeCommand);
     ReplyKeyboardMarkup::Ptr createOneColumnReplyKeyboardMarkup(const QStringList &listButtons, const bool resizeKeyboard = true, const bool oneTimeKeyboard = false);
     ReplyKeyboardMarkup::Ptr createReplyKeyboardMarkup(const QVector<QStringList> &vecLayouts);
+
+    void sendStartingButtons(const std::int64_t id);
 };
 

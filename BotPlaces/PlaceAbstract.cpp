@@ -5,19 +5,17 @@ PlaceAbstract::PlaceAbstract(QObject *parent) : QObject(parent)
 
 }
 
-void PlaceAbstract::slotOnCommand(const Message::Ptr &messagePtr)
+void PlaceAbstract::slotOnCommand(const Message::Ptr &messagePtr, const Content::Command &command)
 {
-
-}
-
-bool PlaceAbstract::isEqualStrings(const std::string &a, const QString &b)
-{
-    return a == b.toStdString();
-}
-
-bool PlaceAbstract::isEqualCommands(const std::string &command, const Content::PlaceCommand placeCommand)
-{
-    return Content::isEqualCommands(command, placeCommand);
+    if (command == Content::Command::Start_Start) {
+        sendStartingButtons(messagePtr->chat->id);
+    }
+    else if (command == Content::Command::MultiPlace_Help) {
+        sendStartingButtons(messagePtr->chat->id);
+    }
+    else{
+        qDebug() << "Error! This function is not used!" << command << messagePtr->text.c_str() << Qt::endl;
+    }
 }
 
 ReplyKeyboardMarkup::Ptr PlaceAbstract::createOneColumnReplyKeyboardMarkup(const QStringList &listButtons, const bool resizeKeyboard, const bool oneTimeKeyboard)
@@ -37,5 +35,14 @@ ReplyKeyboardMarkup::Ptr PlaceAbstract::createOneColumnReplyKeyboardMarkup(const
 
 ReplyKeyboardMarkup::Ptr PlaceAbstract::createReplyKeyboardMarkup(const QVector<QStringList> &vecLayouts)
 {
+    return {};
+}
 
+void PlaceAbstract::sendStartingButtons(const int64_t id)
+{
+    static const QStringList layout { Content::getCommand(Content::ThyCloset_AddPrayerNeed)
+                                    , Content::getCommand(Content::ThyCloset_AddAnswerOfGod)
+                                    , Content::getCommand(Content::ThyCloset_ListPrayerNeed) };
+    static const QString answer { QObject::tr("Hello child of God. This bot is designed to make your prayer life effective. \n\nMay God bless you.") };
+    bot->getApi().sendMessage(id, answer.toStdString(), false, 0, createOneColumnReplyKeyboardMarkup(layout));
 }
