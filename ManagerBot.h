@@ -5,9 +5,8 @@
 
 #include "GlobalData/GlobalData.h"
 #include "Content/Content.h"
-#include "BotPlaces/PlaceStart/PlaceStart.h"
 #include "BotPlaces/PlaceThyCloset/PlaceThyCloset.h"
-#include "BotPlaces/PlaceAdmin/PlaceAdmin.h"
+#include "BotPlaces/PlaceAdditional/PlaceAdditional.h"
 
 #include <tgbot/tgbot.h>
 using namespace TgBot;
@@ -23,12 +22,14 @@ public:
 
 private:
     void setSettings();
-    void commandWasWrite(const Message::Ptr messagePtr);
+    void anyMessageWasWrite(const Message::Ptr messagePtr);
+    void callbackQueryWasWrite(const CallbackQuery::Ptr callbackQuery);
+
+    void changePlaceBot(const Content::Place place);
 
 private:
-    PlaceStart      *placeStart     ;
-    PlaceThyCloset  *placeThyCloset ;
-    PlaceAdmin      *placeAdmin     ;
-    PlaceAbstract   *placeBot       ;
+    PlaceThyCloset      *placeThyCloset ;
+    PlaceAdditional     *placeAdditional;
+    PlaceAbstract       *placeBot       ;
 };
 

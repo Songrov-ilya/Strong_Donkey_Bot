@@ -18,23 +18,24 @@ public:
         CallbackQuery,
     };
     enum class Place{
-        Start,
         ThyCloset,
-        Admin,
+        Additional,
         Church,
         MultiPlace,
     };
     Q_ENUM(Place)
     enum Command{
-        Start_Start,
-
         ThyCloset_AddPrayerNeed,
         ThyCloset_AddAnswerOfGod,
         ThyCloset_ListPrayerNeed,
 
-        Admin_DeletePrayerNeed,
-        Admin_DeleteHistory,
+        Additional_Additional,
+        Additional_ShowHistory,
+        Additional_DeletePrayerNeed,
+        Additional_DeleteHistory,
+        Additional_Developer,
 
+        MultiPlace_Start,
         MultiPlace_Help,
         MultiPlace_AnyMessage,
     };
@@ -49,7 +50,7 @@ public:
     static void initContent();
     static PlaceCommand getPlaceCommand(const QString &command);
     static PlaceCommand getPlaceCommand(const std::string &command);
-    static QString getCommand(const Command placeCommand);
+    static QString getCommandStr(const Command placeCommand);
 
 private:
     static QVector<QPair<PlaceCommand, QString> > vecPlaceCommand;

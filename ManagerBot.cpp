@@ -5,71 +5,20 @@ ManagerBot::ManagerBot(const QString token, QObject *parent) : QObject(parent)
 {
     initGlobalData(token);
 
-    //    printf("Token: %s\n", token.toUtf8().constData());
-
-    //    Bot bot(token.toUtf8().constData());
-
-    //    ReplyKeyboardMarkup::Ptr keyboardOneCol(new ReplyKeyboardMarkup);
-    //    createOneColumnKeyboard({"Option 1", "Option 2", "Option 3"}, keyboardOneCol);
-
-    //    ReplyKeyboardMarkup::Ptr keyboardWithLayout(new ReplyKeyboardMarkup);
-    //    createKeyboard({
-    //      {"Dog", "Cat", "Mouse"},
-    //      {"Green", "White", "Red"},
-    //      {"On", "Off"},
-    //      {"Back"},
-    //      {"Info", "About", "Map", "Etc"}
-    //    }, keyboardWithLayout);
-
-    //    bot.getEvents().onCommand("start", [&bot, &keyboardOneCol](Message::Ptr message) {
-    //        bot.getApi().sendMessage(message->chat->id, "/start for one column keyboard\n/layout for a more complex keyboard", false, 0, keyboardOneCol);
-    //    });
-    //    bot.getEvents().onCommand("layout", [&bot, &keyboardWithLayout](Message::Ptr message) {
-    //        bot.getApi().sendMessage(message->chat->id, "/start for one column keyboard\n/layout for a more complex keyboard", false, 0, keyboardWithLayout);
-    //    });
-    //    bot.getEvents().onNonCommandMessage([&bot](Message::Ptr message) {
-    //        printf("User wrote onNonCommandMessage %s\n", message->text.c_str());
-    //        if (StringTools::startsWith(message->text, "/start") || StringTools::startsWith(message->text, "/layout")) {
-    //            return;
-    //        }
-    //        bot.getApi().sendMessage(message->chat->id, "onNonCommandMessage Your message is: " + message->text);
-    //    });
-    //    bot.getEvents().onAnyMessage([&bot](Message::Ptr message) {
-    //        printf("User wrote onAnyMessage %s\n", message->text.c_str());
-    //        if (StringTools::startsWith(message->text, "/start") || StringTools::startsWith(message->text, "/layout")) {
-    //            return;
-    //        }
-    //        bot.getApi().sendMessage(message->chat->id, "onAnyMessage Your message is: " + message->text);
-    //    });
-
-    //    signal(SIGINT, [](int s) {
-    //        printf("SIGINT got\n");
-    //        exit(0);
-    //    });
-
-    //    try {
-    //        printf("Bot username: %s\n", bot.getApi().getMe()->username.c_str());
-    //        bot.getApi().deleteWebhook();
-
-    //        TgLongPoll longPoll(bot);
-    //        while (true) {
-    //            printf("Long poll started\n");
-    //            longPoll.start();
-    //        }
-    //    } catch (exception& e) {
-    //        printf("error: %s\n", e.what());
-    //    }
-
-    placeStart      = new PlaceStart    (this);
-    placeThyCloset  = new PlaceThyCloset(this);
-    placeAdmin      = new PlaceAdmin    (this);
-    placeBot        = placeStart;
+    placeThyCloset      = new PlaceThyCloset    (this);
+    placeAdditional     = new PlaceAdditional   (this);
+    placeBot            = placeThyCloset;
     setSettings();
 }
 
 void ManagerBot::startBot()
 {
-    Content::initContent();
+    //    Content::initContent();
+
+//    signal(SIGINT, [](int s) {
+//        printf("SIGINT got\n");
+//        exit(0);
+//    });
 
     qDebug("Token: %s\n", bot->getToken().c_str());
     try {
@@ -88,27 +37,42 @@ void ManagerBot::startBot()
 
 void ManagerBot::setSettings()
 {
-    bot->getEvents().onAnyMessage(std::bind(&ManagerBot::commandWasWrite, this, std::placeholders::_1));
+    bot->getEvents().onAnyMessage(std::bind(&ManagerBot::anyMessageWasWrite, this, std::placeholders::_1));
+    bot->getEvents().onCallbackQuery(std::bind(&ManagerBot::callbackQueryWasWrite, this, std::placeholders::_1));
+
+    bot->getEvents().onInlineQuery([](const InlineQuery::Ptr){ qDebug() << "onInlineQuery" << Qt::endl; });
+    bot->getEvents().onChosenInlineResult([](const ChosenInlineResult::Ptr){ qDebug() << "onChosenInlineResult" << Qt::endl; });
+//    bot->getEvents().onCallbackQuery([](const CallbackQuery::Ptr &callbackQuery){ qDebug() << "onCallbackQuery" << callbackQuery->data.c_str() << Qt::endl; });
 }
 
-void ManagerBot::commandWasWrite(const Message::Ptr messagePtr)
+void ManagerBot::anyMessageWasWrite(const Message::Ptr messagePtr)
 {
     const Content::PlaceCommand placeCommand = Content::getPlaceCommand(messagePtr->text);
+    qDebug() << "anyMessageWasWrite:" << messagePtr->text.c_str() << placeCommand.command << Qt::endl;
+    changePlaceBot(placeCommand.place);
+    placeBot->slotOnCommand(messagePtr, placeCommand.command);
+}
 
-    switch (placeCommand.place) {
-    case Content::Place::Start:
-        placeBot = placeStart;
-        break;
+void ManagerBot::callbackQueryWasWrite(const CallbackQuery::Ptr callbackQuery)
+{
+    const Content::PlaceCommand placeCommand = Content::getPlaceCommand(callbackQuery->data);
+    qDebug() << "callbackQueryWasWrite:" << callbackQuery->data.c_str() << placeCommand.command << Qt::endl;
+    changePlaceBot(placeCommand.place);
+    placeBot->slotOnCallbackQuery(callbackQuery, placeCommand.command);
+}
+
+void ManagerBot::changePlaceBot(const Content::Place place)
+{
+    switch (place) {
     case Content::Place::ThyCloset:
         placeBot = placeThyCloset;
         break;
-    case Content::Place::Admin:
-        placeBot = placeAdmin;
+    case Content::Place::Additional:
+        placeBot = placeAdditional;
         break;
     case Content::Place::MultiPlace:
         break;
     default:
         break;
     }
-    placeBot->slotOnCommand(messagePtr, placeCommand.command);
 }
