@@ -10,6 +10,7 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    Adjutants/FileWorker.cpp \
     BotPlaces/PlaceAbstract.cpp \
     BotPlaces/PlaceAdditional/PlaceAdditional.cpp \
     BotPlaces/PlaceThyCloset/PlaceThyCloset.cpp \
@@ -21,6 +22,7 @@ SOURCES += \
     mainwindow.cpp
 
 HEADERS += \
+    Adjutants/FileWorker.h \
     BotPlaces/PlaceAbstract.h \
     BotPlaces/PlaceAdditional/PlaceAdditional.h \
     BotPlaces/PlaceThyCloset/PlaceThyCloset.h \

@@ -1,5 +1,5 @@
 ### 1
-Open Telegram --> Find BotFather --> /token
+Open Telegram --> Search: BotFather --> /token
 
 ### 2
 https://core.telegram.org/bots/api

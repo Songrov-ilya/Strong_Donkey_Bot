@@ -11,7 +11,8 @@ int main(int argc, char *argv[])
 //    MainWindow w;
 //    w.show();
 
-    ManagerBot managerBot("1074139558:AAHPrCJFleoqGnMAYmO2aKldpLTbxvAtplc");
+    const QString token = FileWorker::readFileJson("../config.json").object().value("token").toString();
+    ManagerBot managerBot(token);
     managerBot.startBot();
 
     return a.exec();

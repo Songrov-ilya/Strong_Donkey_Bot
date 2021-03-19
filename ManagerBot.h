@@ -3,6 +3,7 @@
 #include <QObject>
 #include <QString>
 
+#include "Adjutants/FileWorker.h"
 #include "GlobalData/GlobalData.h"
 #include "Content/Content.h"
 #include "BotPlaces/PlaceThyCloset/PlaceThyCloset.h"
