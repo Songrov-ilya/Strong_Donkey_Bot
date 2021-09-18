@@ -18,33 +18,41 @@ public:
         CallbackQuery,
     };
     enum class Place{
-        BlackHole,
-        Start,
-        Church,
         ThyCloset,
-        Admin,
+        Additional,
+        Church,
         MultiPlace,
     };
     Q_ENUM(Place)
-    enum PlaceCommand{
-        BlackHole_None,
+    enum Command{
+        ThyCloset_AddPrayerNeed,
+        ThyCloset_AddAnswerOfGod,
+        ThyCloset_ListPrayerNeed,
 
-        Start_Start,
-        Start_JoinChurch,
+        Additional_Additional,
+        Additional_ShowHistory,
+        Additional_DeletePrayerNeed,
+        Additional_DeleteHistory,
+        Additional_Developer,
 
-        Admin_CreateChurch,
-
+        MultiPlace_Start,
         MultiPlace_Help,
+        MultiPlace_AnyMessage,
     };
-    Q_ENUM(PlaceCommand)
+    Q_ENUM(Command)
+    struct PlaceCommand{
+        Place place     = Place::MultiPlace;
+        Command command = MultiPlace_AnyMessage;
+        PlaceCommand(const Place pl, const Command cm) : place(pl), command(cm) {}
+        PlaceCommand(){}
+    };
 
     static void initContent();
-    static Place getPlace(const QString &command);
-    static Place getPlace(const std::string &command);
-    static QString getCommand(const PlaceCommand placeCommand);
-    static bool isEqualCommands(const std::string &command, const PlaceCommand placeCommand);
+    static PlaceCommand getPlaceCommand(const QString &command);
+    static PlaceCommand getPlaceCommand(const std::string &command);
+    static QString getCommandStr(const Command placeCommand);
 
 private:
-    static QVector<QPair<Place, QString> > vecPlaceCommand;
+    static QVector<QPair<PlaceCommand, QString> > vecPlaceCommand;
 };
 

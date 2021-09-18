@@ -1,4 +1,5 @@
 QT       += core gui
+QT      += sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -9,24 +10,24 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    Adjutants/FileWorker.cpp \
     BotPlaces/PlaceAbstract.cpp \
-    BotPlaces/PlaceAdmin/PlaceAdmin.cpp \
-    BotPlaces/PlaceChurch/PlaceChurch.cpp \
-    BotPlaces/PlaceStart/PlaceStart.cpp \
+    BotPlaces/PlaceAdditional/PlaceAdditional.cpp \
     BotPlaces/PlaceThyCloset/PlaceThyCloset.cpp \
     Content/Content.cpp \
+    Database/ManagerDatabase.cpp \
     GlobalData/GlobalData.cpp \
     ManagerBot.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
+    Adjutants/FileWorker.h \
     BotPlaces/PlaceAbstract.h \
-    BotPlaces/PlaceAdmin/PlaceAdmin.h \
-    BotPlaces/PlaceChurch/PlaceChurch.h \
-    BotPlaces/PlaceStart/PlaceStart.h \
+    BotPlaces/PlaceAdditional/PlaceAdditional.h \
     BotPlaces/PlaceThyCloset/PlaceThyCloset.h \
     Content/Content.h \
+    Database/ManagerDatabase.h \
     GlobalData/GlobalData.h \
     ManagerBot.h \
     mainwindow.h \
@@ -36,7 +37,8 @@ FORMS += \
     mainwindow.ui
 
 INCLUDEPATH += \
-    tgbot/include
+    tgbot/include \
+    Database \
 
 
 unix:!macx: LIBS += -L$$PWD/tgbot -lTgBot

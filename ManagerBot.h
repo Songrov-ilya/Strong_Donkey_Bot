@@ -3,12 +3,11 @@
 #include <QObject>
 #include <QString>
 
+#include "Adjutants/FileWorker.h"
 #include "GlobalData/GlobalData.h"
 #include "Content/Content.h"
-#include "BotPlaces/PlaceStart/PlaceStart.h"
-#include "BotPlaces/PlaceChurch/PlaceChurch.h"
 #include "BotPlaces/PlaceThyCloset/PlaceThyCloset.h"
-#include "BotPlaces/PlaceAdmin/PlaceAdmin.h"
+#include "BotPlaces/PlaceAdditional/PlaceAdditional.h"
 
 #include <tgbot/tgbot.h>
 using namespace TgBot;
@@ -24,14 +23,14 @@ public:
 
 private:
     void setSettings();
-    void commandWasWrite(const Message::Ptr messagePtr);
+    void anyMessageWasWrite(const Message::Ptr messagePtr);
+    void callbackQueryWasWrite(const CallbackQuery::Ptr callbackQuery);
+
+    void changePlaceBot(const Content::Place place);
 
 private:
-    PlaceStart      *placeStart     ;
-    PlaceChurch     *placeChurch    ;
-    PlaceThyCloset  *placeThyCloset ;
-    PlaceAdmin      *placeAdmin     ;
-    PlaceAbstract   *placeBot       ;
-    Content::Place currentPlace;
+    PlaceThyCloset      *placeThyCloset ;
+    PlaceAdditional     *placeAdditional;
+    PlaceAbstract       *placeBot       ;
 };
 
